@@ -343,21 +343,6 @@
 
 
 /*** Project Portfolio ***/
-#ourservices li {
-    display: inline-block;
-    font-weight: 500;
-    color: var(--dark);
-    cursor: pointer;
-    transition: .5s;
-    border-bottom: 2px solid transparent;
-}
-
-#ourservices li:hover,
-#ourservices li.active {
-    color: var(--primary);
-    border-color: var(--primary);
-}
-
 .portfolio-inner {
     position: relative;
     overflow: hidden;
