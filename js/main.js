@@ -85,19 +85,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("consultForm");
     const steps = document.querySelectorAll(".form-step");
     let currentStep = 0;
- 
+
     const requiredFieldsByStep = {
         0: ['name', 'bookingFor', 'sex', 'age'],
         1: ['duration', 'days', 'date', 'time'],
         2: ['problem', 'language']
     };
- 
+
     function showStep(index) {
         steps.forEach((step, i) => {
             step.classList.toggle("d-none", i !== index);
         });
     }
- 
     function validateStep(stepIndex) {
         const fields = requiredFieldsByStep[stepIndex];
         for (let field of fields) {
@@ -114,11 +113,25 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     return false;
                 }
+
+                // Custom validation for age
+                if (field === 'age') {
+                    const ageValue = parseFloat(input.value);
+                    if (isNaN(ageValue) || ageValue < 0.1 || ageValue > 103) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Invalid Age',
+                            text: 'Please enter a valid age between 1 month (0.1) and 103 years.',
+                        });
+                        return false;
+                    }
+                }
             }
         }
         return true;
     }
- 
+
+
     document.querySelectorAll(".next-step").forEach(button => {
         button.addEventListener("click", () => {
             if (validateStep(currentStep)) {
@@ -129,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
- 
+
     document.querySelectorAll(".prev-step").forEach(button => {
         button.addEventListener("click", () => {
             if (currentStep > 0) {
@@ -138,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
- 
+
     // Day selection
     document.querySelectorAll(".day-btn").forEach(button => {
         button.addEventListener("click", () => {
@@ -147,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("selectedDay").value = button.value;
         });
     });
- 
+
     // Duration selection
     document.querySelectorAll(".duration-btn").forEach(button => {
         button.addEventListener("click", () => {
@@ -156,22 +169,22 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("selectedDuration").value = button.textContent.trim();
         });
     });
- 
+
     // Final submit
     form.addEventListener("submit", function (e) {
         e.preventDefault();
- 
+
         if (!validateStep(currentStep)) return;
- 
+
         const formData = new FormData(form);
         const formObject = {};
         formData.forEach((value, key) => {
             formObject[key] = value;
         });
- 
+
         // Save to localStorage
         localStorage.setItem("consultationFormData", JSON.stringify(formObject));
- 
+
         // Show success alert and redirect
         Swal.fire({
             icon: 'success',
@@ -182,23 +195,23 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "thank-you.html";
         });
     });
- 
+
     // Show initial step
     showStep(currentStep);
 });
- 
- 
+
+
 
 // 
-  const durationButtons = document.querySelectorAll('.duration-btn');
-  const selectedDurationInput = document.getElementById('selectedDuration');
+const durationButtons = document.querySelectorAll('.duration-btn');
+const selectedDurationInput = document.getElementById('selectedDuration');
 
-  durationButtons.forEach(button => {
+durationButtons.forEach(button => {
     button.addEventListener('click', () => {
-      durationButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      selectedDurationInput.value = button.textContent;
+        durationButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        selectedDurationInput.value = button.textContent;
     });
-  });
+});
 
 

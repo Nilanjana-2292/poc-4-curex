@@ -463,7 +463,13 @@
     color: #fff;
     opacity: 1;
 }
-
+div:where(.swal2-icon).swal2-warning {
+    border-color: #ff0000 !important;
+    color: #ff0000 !important;
+}
+button.swal2-confirm.swal2-styled {
+    background: #011141;
+}
 @media (max-width:820.98px) {
     @media (hover: none) and (pointer: coarse) {
         .portfolio-inner:hover img {
